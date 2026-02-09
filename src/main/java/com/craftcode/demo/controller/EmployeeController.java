@@ -2,7 +2,10 @@ package com.craftcode.demo.controller;
 
 import com.craftcode.demo.dto.EmployeeDto;
 import com.craftcode.demo.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -15,9 +18,9 @@ public class EmployeeController {
     private EmployeeService employeeService;
     
     @GetMapping("/getEmployeeDetail/{id}")
-    public EmployeeDto getEmployeeById(@PathVariable Long id){
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id){
        EmployeeDto employeeDto = employeeService.getEmployeeDetail(id);
-       return employeeDto;
+       return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
     @GetMapping("/findAll")
@@ -29,7 +32,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/registration")
-    public String createEmployeeDetail(@RequestBody EmployeeDto employeeDto){
+    public String createEmployeeDetail(@RequestBody @Valid  EmployeeDto employeeDto){
         String test = employeeService.createEmployee(employeeDto);
         return "success";
 
